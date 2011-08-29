@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -9,7 +8,7 @@ var express = require('express'),
 	schema = mongoose.Schema;
 	
  	var dibb = new schema({
-     	//id : {type: Number, unique : true},
+     	//id : {type: Number, default: 0 ,$inc : 1, unique : true},
      	user : String,
       	name : String,
       	date : { type: Date, default: Date.now },
