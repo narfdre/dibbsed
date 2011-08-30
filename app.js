@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var express = require('express'),
+var express = require('express')/*,
     mongoose = require('mongoose'),
     	db = mongoose.connect('mongodb://localhost/dibbsed'),
 	schema = mongoose.Schema;
@@ -19,7 +19,7 @@ var firstDibb = new Dibb();
 firstDibb.user = "narfdre";
 firstDibb.name = "Milk";
 firstDibb.date = Date.now();
-firstDibb.save();
+firstDibb.save()*/;
 var app = module.exports = express.createServer();
 
 // Configuration
@@ -43,7 +43,31 @@ app.configure('production', function(){
 
 // Routes
 
-app.get('/', function(req, res){
+app.get('/dibb/:id', function(req, res){
+    var id = req.params["id"];
+//  res.render('index', {
+//   title: 'Express'
+//  });
+});
+app.get('/u/:name', function(req, res){
+  var name = req.params["name"];
+//  res.render('index', {
+//   title: 'Express'
+//  });
+});
+app.del('/dibb/:id', function(req, res){
+    var id = req.params["id"];
+//  res.render('index', {
+//   title: 'Express'
+//  });
+});
+app.post('/dibb', function(req, res){
+    var user = req.param("user");
+//  res.render('index', {
+//   title: 'Express'
+//  });
+});
+app.put('/dibb', function(req, res){
 //  res.render('index', {
 //   title: 'Express'
 //  });
@@ -51,6 +75,6 @@ app.get('/', function(req, res){
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
-Dibb.find({}, function(err, docs){
-  console.log(docs);
-});
+//Dibb.find({}, function(err, docs){
+//  console.log(docs);
+//});
