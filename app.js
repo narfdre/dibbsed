@@ -42,6 +42,11 @@ app.configure('production', function(){
 });
 
 // Routes
+app.get('/', function(req, res){
+  res.render('index', {
+   title: 'Express'
+  });
+});
 
 app.get('/dibb/:id', function(req, res){
     var id = req.params["id"];
