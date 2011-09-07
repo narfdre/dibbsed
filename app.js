@@ -2,24 +2,31 @@
  * Module dependencies.
  */
 
-var express = require('express')/*,
-    mongoose = require('mongoose'),
-    	db = mongoose.connect('mongodb://localhost/dibbsed'),
-	schema = mongoose.Schema;
-	
- 	var dibb = new schema({
-     	//id : {type: Number, default: 0 ,$inc : 1, unique : true},
-     	user : String,
-      	name : String,
-      	date : { type: Date, default: Date.now },
-      	tags : [String]
-	});
-var Dibb = mongoose.model('dibb', dibb);
-var firstDibb = new Dibb();
-firstDibb.user = "narfdre";
-firstDibb.name = "Milk";
-firstDibb.date = Date.now();
-firstDibb.save()*/;
+var express = require('express');
+if(process.argv[2] == 'withDB'){
+	console.log('Connecting to DB');
+//     var mongoose = require('mongoose'),
+//     	db = mongoose.connect('mongodb://localhost/dibbsed'),
+// 	schema = mongoose.Schema;
+// 	console.log('MongoDB Connected');
+// 	
+//  	var dibb = new schema({
+//      	//id : {type: Number, default: 0 ,$inc : 1, unique : true},
+//      	user : String,
+//       	name : String,
+//       	date : { type: Date, default: Date.now },
+//       	tags : [String]
+// 	});
+// 	var Dibb = mongoose.model('dibb', dibb);
+// 	var firstDibb = new Dibb();
+// 	firstDibb.user = "narfdre";
+// 	firstDibb.name = "Milk";
+// 	firstDibb.date = Date.now();
+// 	firstDibb.save();
+	//Dibb.find({}, function(err, docs){
+	//  console.log(docs);
+	//});
+}
 var app = module.exports = express.createServer();
 
 // Configuration
@@ -68,6 +75,7 @@ app.del('/dibb/:id', function(req, res){
 });
 app.post('/dibb', function(req, res){
     var user = req.param("user");
+    var user = req.param("title");
 //  res.render('index', {
 //   title: 'Express'
 //  });
@@ -80,6 +88,3 @@ app.put('/dibb', function(req, res){
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
-//Dibb.find({}, function(err, docs){
-//  console.log(docs);
-//});
