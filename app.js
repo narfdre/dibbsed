@@ -2,42 +2,37 @@
  * Module dependencies.
  */
 
-var express = require('express');
+var express = require('express'),
+	mongoose = require('mongoose');
 if(process.argv[2] == 'withDB'){
-	console.log('Connecting to DB');
-//     var mongoose = require('mongoose'),
-//     	db = mongoose.connect('mongodb://localhost/dibbsed'),
-// 	schema = mongoose.Schema;
-// 	console.log('MongoDB Connected');
-// 	
-//  	var dibb = new schema({
-//      	//id : {type: Number, default: 0 ,$inc : 1, unique : true},
-//      	user : String,
-//       	name : String,
-//       	date : { type: Date, default: Date.now },
-//       	tags : [String]
-// 	});
-// 	var Dibb = mongoose.model('dibb', dibb);
-// 	var firstDibb = new Dibb();
-// 	firstDibb.user = "narfdre";
-// 	firstDibb.name = "Milk";
-// 	firstDibb.date = Date.now();
-// 	firstDibb.save();
-	//Dibb.find({}, function(err, docs){
-	//  console.log(docs);
-	//});
+    var	db = mongoose.connect('mongodb://localhost/dibbsed'),
+		schema = mongoose.Schema;
+		objectId = schema.ObjectId;
+	console.log('MongoDB Connected');
+	
+ 	var dibb = new schema({
+     	id : objectId,
+     	user : String,
+      	name : {type: String, unique: true},
+      	date : { type: Date, default: Date.now },
+      	tags : [String]
+	});
+	var Dibb = mongoose.model('dibb', dibb);
+	Dibb.find({}, function(err, docs){
+		console.log(docs);
+	});
 }
 var app = module.exports = express.createServer();
 
 // Configuration
 
 app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
+	app.set('views', __dirname + '/views');
+	app.set('view engine', 'jade');
+	app.use(express.bodyParser());
+	app.use(express.methodOverride());
+	app.use(app.router);
+	app.use(express.static(__dirname + '/public'));
 });
 
 app.configure('development', function(){
@@ -50,9 +45,7 @@ app.configure('production', function(){
 
 // Routes
 app.get('/', function(req, res){
-  res.render('index', {
-   title: 'Express'
-  });
+  res.render('index', {});
 });
 
 app.get('/dibb/:id', function(req, res){
@@ -75,7 +68,16 @@ app.del('/dibb/:id', function(req, res){
 });
 app.post('/dibb', function(req, res){
     var user = req.param("user");
-    var user = req.param("title");
+    var title = req.param("title");
+    var timeStamp = Date.now();
+    var dibb = new Dibb();
+	dibb.user = user;
+	dibb.name = title;
+	dibb.date = timeStamp;
+	dibb.save();
+	Dibb.find({name: title, date: timeStamp}, function(err, docs){
+		res.redirect('/dibb/' + docs._id);
+	});
 //  res.render('index', {
 //   title: 'Express'
 //  });
