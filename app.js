@@ -3,21 +3,14 @@
  */
 
 var express = require('express'),
-	mongoose = require('mongoose');
-if(process.argv[2] == 'withDB'){
-    var	db = mongoose.connect('mongodb://localhost/dibbsed'),
-		schema = mongoose.Schema;
-		objectId = schema.ObjectId;
+	mongoose = require('mongoose'),
+	model = require('./model');
+	
+if(process.argv[2] == 'withDB'){// This does not need to be here for production
+    var	db = mongoose.connect('mongodb://localhost/dibbsed');
 	console.log('MongoDB Connected');
 	
- 	var dibb = new schema({
-     	id : objectId,
-     	user : String,
-      	name : {type: String, unique: true},
-      	date : { type: Date, default: Date.now },
-      	tags : [String]
-	});
-	var Dibb = mongoose.model('dibb', dibb);
+	var Dibb = model.getDibb();
 	Dibb.find({}, function(err, docs){
 		console.log(docs);
 	});
