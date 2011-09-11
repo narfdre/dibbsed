@@ -41,20 +41,22 @@ app.get('/', function(req, res){
   res.render('index', {});
 });
 
-app.get('/dibb/:id', function(req, res){
-    var id = req.params["id"];
+app.get('/dibb/:name', function(req, res){
+    var title = req.params["name"];
+    Dibb.find({name: title}, function(err, doc){
+	    res.render('dibb', {
+			dibb: doc
+ 		}); 
+	});
+});
+app.get('/user/:user', function(req, res){
+  var name = req.params["user"];
 //  res.render('index', {
 //   title: 'Express'
 //  });
 });
-app.get('/u/:name', function(req, res){
-  var name = req.params["name"];
-//  res.render('index', {
-//   title: 'Express'
-//  });
-});
-app.del('/dibb/:id', function(req, res){
-    var id = req.params["id"];
+app.del('/dibb/:name', function(req, res){
+    var id = req.params["name"];
 //  res.render('index', {
 //   title: 'Express'
 //  });
@@ -80,6 +82,5 @@ app.put('/dibb', function(req, res){
 //   title: 'Express'
 //  });
 });
-
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
