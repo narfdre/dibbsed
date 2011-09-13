@@ -66,12 +66,14 @@ app.post('/dibb', function(req, res){
     var title = req.param("title");
     var timeStamp = Date.now();
     var dibb = new Dibb({user: user, name: title, date: timeStamp});
-	// dibb.user = user;
-	// dibb.name = title;
-	// dibb.date = timeStamp;
-	dibb.save();
-	Dibb.findOne({name: title}, function(err, docs){
-		res.redirect('/dibb/' + docs.name);
+	dibb.save(function(error){
+		if(error == null){
+			Dibb.findOne({name: title}, function(err, doc){
+				res.redirect('/dibb/' + doc.name);
+			});
+		}else{
+			console.log(error);
+		}
 	});
 //  res.render('index', {
 //   title: 'Express'
