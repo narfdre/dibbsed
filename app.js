@@ -43,7 +43,7 @@ app.get('/', function(req, res){
 
 app.get('/dibb/:name', function(req, res){
     var title = req.params["name"];
-    Dibb.find({name: title}, function(err, doc){
+    Dibb.findOne({name: title}, function(err, doc){
 	    res.render('dibb', {
 			dibb: doc
  		}); 
@@ -65,13 +65,13 @@ app.post('/dibb', function(req, res){
     var user = req.param("user");
     var title = req.param("title");
     var timeStamp = Date.now();
-    var dibb = new Dibb();
-	dibb.user = user;
-	dibb.name = title;
-	dibb.date = timeStamp;
+    var dibb = new Dibb({user: user, name: title, date: timeStamp});
+	// dibb.user = user;
+	// dibb.name = title;
+	// dibb.date = timeStamp;
 	dibb.save();
-	Dibb.find({name: title, date: timeStamp}, function(err, docs){
-		res.redirect('/dibb/' + docs._id);
+	Dibb.findOne({name: title}, function(err, docs){
+		res.redirect('/dibb/' + docs.name);
 	});
 //  res.render('index', {
 //   title: 'Express'

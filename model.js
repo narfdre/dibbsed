@@ -5,7 +5,7 @@ var	mongoose = require('mongoose'),
 var dibb = new schema({
      	id : objectId,
      	user : String,
-      	name : {type: String, unique: true},
+      	name : { type: String, unique: true },
       	date : { type: Date, default: Date.now },
       	tags : [String]
 });

@@ -1,10 +1,15 @@
 !!! 5
 html(lang="en")
-  head
-    title Dibbsed.it
-    script(type='text/javascript', src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js")
-  body
-  	#wrapper
-    h1 Dibb
-    #container
-      
+	head
+		title Dibbsed.it
+		script(type='text/javascript', src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js")
+	body
+		#wrapper
+		h1 Dibb
+		#container
+			div
+				span Dibb:
+				span= dibb.name
+			div
+				span User:
+				span= dibb.user
