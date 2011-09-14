@@ -51,15 +51,16 @@ app.get('/dibb/:name', function(req, res){
 });
 app.get('/user/:user', function(req, res){
   var name = req.params["user"];
-//  res.render('index', {
-//   title: 'Express'
-//  });
-});
-app.del('/dibb/:name', function(req, res){
-    var id = req.params["name"];
-//  res.render('index', {
-//   title: 'Express'
-//  });
+  console.log(name);
+  Dibb.find({user: name}, function(err, docs){
+	  if(err == null){
+		 console.log(docs);
+		 res.render('user', {
+		 	user: name,
+		 	dibbs: docs
+		 });  
+	  }
+  });
 });
 app.post('/dibb', function(req, res){
     var user = req.param("user");
@@ -75,9 +76,6 @@ app.post('/dibb', function(req, res){
 			console.log(error);
 		}
 	});
-//  res.render('index', {
-//   title: 'Express'
-//  });
 });
 app.put('/dibb', function(req, res){
 //  res.render('index', {

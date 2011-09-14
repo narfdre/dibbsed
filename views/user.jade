@@ -1,0 +1,8 @@
+body
+	#wrapper
+	h1 Dibbs
+	span= user
+	#container
+		- each dibb in dibbs
+			a(href="/dibb/#{dibb.name}") #{dibb.name}
+			br
