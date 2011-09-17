@@ -10,7 +10,7 @@ if(process.argv[2] == 'withDB'){// This does not need to be here for production
     var	db = mongoose.connect('mongodb://localhost/dibbsed');
 	console.log('MongoDB Connected');
 	
-	var Dibb = model.getDibb();
+	var Dibb = model.getDibbModel();
 	Dibb.find({}, function(err, docs){
 		console.log(docs);
 	});
@@ -38,7 +38,7 @@ app.configure('production', function(){
 
 // Routes
 app.get('/', function(req, res){
-  res.render('index', {});
+  res.render('login', {});
 });
 
 app.get('/dibb/:name', function(req, res){
@@ -81,6 +81,28 @@ app.put('/dibb', function(req, res){
 //  res.render('index', {
 //   title: 'Express'
 //  });
+});
+app.post('/google', function(req, res){
+	var googleOpenId = [
+		'openid.mode=checkid_setup',
+		'openid.ns=http://specs.openid.net/auth/2.0',
+		'openid.ns.ui=http://specs.openid.net/extensions/ui/1.0',
+		'openid.ui.mode=popup',
+		'openid.ui.icon=true',
+		'openid.ns.ax=http://openid.net/srv/ax/1.0',
+		'openid.ax.mode=fetch_request',
+		'openid.ax.type.email=http://axschema.org/contact/email',
+		'openid.ax.type.firstname=http://axschema.org/namePerson/first',
+		'openid.ax.type.lastname=http://axschema.org/namePerson/last',
+		'openid.ax.required=email,firstname,lastname',
+		'openid.identity=http://specs.openid.net/auth/2.0/identifier_select',
+		'openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select',
+		'openid.return_to=http://localhost:3000/verify'
+	].join('&');
+	res.redirect('https://www.google.com/accounts/o8/ud?' + googleOpenId);	
+});
+app.get('/verify', function(req, res){
+	console.log(req.query);
 });
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
