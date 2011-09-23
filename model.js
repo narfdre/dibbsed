@@ -4,7 +4,8 @@ var	mongoose = require('mongoose'),
 
 var User = new schema({
 		id: objectId,
-		name: String,
+		firstName : String,
+     	lastName : String,
 		email: { type: String, unqiue: true },
 		google: { type: String, unqiue: true },
 		twitter: { type: String, unique: true }, 
@@ -13,8 +14,11 @@ var User = new schema({
 
 var Dibb = new schema({
 		id : objectId,
-     	user : String,
+     	firstName : String,
+     	lastName : String,
+     	email: String,
       	name : { type: String, unique: true },
+      	description : String,
       	date : { type: Date, default: Date.now },
       	endDate : Date,
       	active : Boolean,

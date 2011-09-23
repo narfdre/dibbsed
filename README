@@ -1,1 +1,8 @@
-This is a proof of concept app for dibbsed.it written in node and using Mongo as the DB. 
+This is a proof of concept app for dibbsed.it written in node and using Mongo as the DB.
+
+Install MongoDB using HomeBrew
+Launch MongoDB
+To launch the app with a DB connection use the flag 'withDB'
+
+NOTE: if you are changing the model drop the collection.
+	go into the database and drop it. For Example: db.dibbs.drop();
