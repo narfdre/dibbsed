@@ -26,7 +26,7 @@ var Dibb = new schema({
 });
 
 exports.getUserModel = function(){
-	return mongoose.mode('user', User);
+	return mongoose.model('user', User);
 }
 
 exports.getDibbModel = function(){

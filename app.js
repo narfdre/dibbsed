@@ -11,6 +11,7 @@ if(process.argv[2] == 'withDB'){// This does not need to be here for production
 	console.log('MongoDB Connected');
 	
 	var Dibb = model.getDibbModel();
+	var User = model.getUserModel();
 	Dibb.find({}, function(err, docs){
 		console.log(docs);
 	});
@@ -23,6 +24,8 @@ app.configure(function(){
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'jade');
 	app.use(express.bodyParser());
+	app.use(express.cookieParser());
+	app.use(express.session({secret: 'secretgoeshere'}));
 	app.use(express.methodOverride());
 	app.use(app.router);
 	app.use(express.static(__dirname + '/public'));
@@ -38,7 +41,11 @@ app.configure('production', function(){
 
 // Routes
 app.get('/', function(req, res){
-  res.render('login', {});
+	if(typeof req.session.username != 'undefined' || typeof req.session.userEmail != 'undefined'){
+		res.render('index', {});
+	}else{
+		res.render('login', {});	
+	}
 });
 
 app.get('/dibb/:name', function(req, res){
@@ -97,12 +104,32 @@ app.post('/google', function(req, res){
 		'openid.ax.required=email,firstname,lastname',
 		'openid.identity=http://specs.openid.net/auth/2.0/identifier_select',
 		'openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select',
-		'openid.return_to=http://localhost:3000/verify'
+		'openid.return_to=http://localhost:3000/gverify'
 	].join('&');
 	res.redirect('https://www.google.com/accounts/o8/ud?' + googleOpenId);	
 });
-app.get('/verify', function(req, res){
-	console.log(req.query);
+app.get('/gverify', function(req, res){
+	var openId = req.query['openid.identity']
+		first = req.query['openid.ext1.value.firstname'],
+		last = req.query['openid.ext1.value.lastname'],
+		email = req.session.userEmail = req.query['openid.ext1.value.email'];
+	req.session.username = first + ' ' + last;
+	if(db){
+		User.find({google:openId}, function(error, docs){
+			if(error == null && docs.length < 1){
+				console.log('saving new user');
+				var newUser = new User({firstname:first, lastname:last, email: email, google: openId});
+				newUser.save(function(error){
+					if(error != null){
+						console.log(error);		
+					}
+				});	
+			}else{
+				console.log('user already in DB');
+			}
+		});
+	}
+	res.redirect('/');
 });
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
