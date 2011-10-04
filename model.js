@@ -14,8 +14,7 @@ var User = new schema({
 
 var Dibb = new schema({
 		id : objectId,
-     	firstName : String,
-     	lastName : String,
+     	name : String,
      	email: String,
       	name : { type: String, unique: true },
       	description : String,
