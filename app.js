@@ -25,7 +25,7 @@ app.configure(function(){
 	app.set('view engine', 'jade');
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
-	app.use(express.session({secret: 'secretgoeshere'}));
+	app.use(express.session({secret: 'dave|you|just|have|to|realize|that|javascript|is|better|than|java'}));
 	app.use(express.methodOverride());
 	app.use(app.router);
 	app.use(express.static(__dirname + '/public'));
